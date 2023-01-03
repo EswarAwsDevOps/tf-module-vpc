@@ -22,3 +22,16 @@ resource "aws_route_table" "private" {
     Name = "${var.env}_private"
   }
 }
+
+###Route tables assosciation
+resource "aws_route_table_association" "public_route_table_to_public_subnets" {
+  count          = length(aws_subnet.public_subnets)
+  subnet_id      = element(aws_subnet.public_subnets.*.id, count.index)
+  route_table_id = aws_route_table.public.id
+}
+
+resource "aws_route_table_association" "private_route_table_to_private_subnets" {
+  count          = length(aws_subnet.private_subnets)
+  subnet_id      = element(aws_subnet.private_subnets.*.id, count.index)
+  route_table_id = aws_route_table.private.id
+}
