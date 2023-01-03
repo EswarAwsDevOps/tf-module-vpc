@@ -47,3 +47,15 @@ resource "aws_route" "internet_route_in_private_route_table" {
   destination_cidr_block    = "0.0.0.0/0"
   nat_gateway_id            = aws_nat_gateway.ngw.id
 }
+
+resource "aws_route" "route_to_default_vpc_in_public_subnet" {
+  route_table_id            = aws_route_table.public.id
+  destination_cidr_block    = var.default_vpc_cidr_block
+  vpc_peering_connection_id = aws_vpc_peering_connection.peering.id
+}
+
+resource "aws_route" "route_to_default_vpc_in_private_subnet" {
+  route_table_id            = aws_route_table.private.id
+  destination_cidr_block    = var.default_vpc_cidr_block
+  vpc_peering_connection_id = aws_vpc_peering_connection.peering.id
+}
