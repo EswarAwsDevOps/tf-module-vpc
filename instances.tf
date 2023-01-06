@@ -16,15 +16,6 @@ resource "aws_instance" "app" {
     Name = "app"
   }
 }
-resource "aws_instance" "db" {
-  ami = "ami-0a017d8ceb274537d"
-  instance_type = "t3.micro"
-  subnet_id = aws_subnet.db_subnets.*.id[0]
-  vpc_security_group_ids = [aws_security_group.allow_tls.id]
-  tags = {
-    Name = "db"
-  }
-}
 resource "aws_security_group" "allow_tls" {
   name        = "allow_tls"
   description = "Allow TLS inbound traffic"
