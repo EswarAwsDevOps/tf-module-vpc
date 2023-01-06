@@ -8,12 +8,21 @@ resource "aws_subnet" "public_subnets" {
   }
 }
 
-resource "aws_subnet" "private_subnets" {
-  count  = length(var.private_subnet_cidr_block)
+resource "aws_subnet" "app_subnets" {
+  count  = length(var.app_subnet_cidr_block)
   vpc_id     = aws_vpc.main.id
-  cidr_block = element(var.private_subnet_cidr_block, count.index)
+  cidr_block = element(var.app_subnet_cidr_block, count.index)
 
   tags = {
-    Name = "${var.env}-private-${count.index+1}"
+    Name = "${var.env}-app-${count.index+1}"
+  }
+}
+resource "aws_subnet" "db_subnets" {
+  count  = length(var.db_subnet_cidr_block)
+  vpc_id     = aws_vpc.main.id
+  cidr_block = element(var.db_subnet_cidr_block, count.index)
+
+  tags = {
+    Name = "${var.env}-db-${count.index+1}"
   }
 }
