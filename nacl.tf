@@ -11,11 +11,19 @@ resource "aws_network_acl" "app" {
   }
   ingress {
     protocol   = "tcp"
-    rule_no    = 9999
+    rule_no    = 32765
     action     = "allow"
     cidr_block = var.workstation_ip
     from_port  = 22
     to_port    = 22
+  }
+  ingress {
+    protocol   = "-1"
+    rule_no    = 32766
+    action     = "allow"
+    cidr_block = "0.0.0.0/0"
+    from_port  = 0
+    to_port    = 0
   }
   tags = {
     Name = "app"
@@ -39,7 +47,14 @@ resource "aws_network_acl" "db" {
     from_port  = 0
     to_port    = 0
   }
-
+  ingress {
+    protocol   = "-1"
+    rule_no    = 32766
+    action     = "allow"
+    cidr_block = "0.0.0.0/0"
+    from_port  = 0
+    to_port    = 0
+  }
   tags = {
     Name = "db"
   }
